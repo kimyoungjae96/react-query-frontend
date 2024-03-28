@@ -1,3 +1,5 @@
-import { Post } from "./type";
-
-export type GetPostListResponse = Post[];
+export type GetPostListResponse = {
+  id: string;
+  title: string;
+  views: number;
+}[];

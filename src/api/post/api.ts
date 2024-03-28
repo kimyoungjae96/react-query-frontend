@@ -1,3 +1,4 @@
+import { Post } from "./type";
 import { IHttpClient, backendHttpClient } from "../common/httpClient";
 import { GetPostListResponse } from "./response";
 
@@ -14,7 +15,7 @@ class PostAPI implements IPostAPI {
       url: `/posts`,
     });
 
-    return data;
+    return data as Post[];
   }
 }
 
