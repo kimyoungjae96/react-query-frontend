@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { postAPI } from "./api";
 
 export const postQueries = {
@@ -23,9 +23,9 @@ export const postQueries = {
 };
 
 export const usePostList = () => {
-  return useQuery(postQueries.list());
+  return useSuspenseQuery(postQueries.list());
 };
 
 export const usePostDetail = ({ id }: { id: string }) => {
-  return useQuery(postQueries.detail(id));
+  return useSuspenseQuery(postQueries.detail(id));
 };
