@@ -1,4 +1,4 @@
-import { Post, postAPI } from "@/api/post";
+import { Post, postQueries } from "@/api/post";
 import styles from "./PostCard.module.css";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -17,12 +17,7 @@ export const PostCard = ({ post }: PostCardProps) => {
   };
 
   const prefetchPostDetail = () => {
-    queryClient.prefetchQuery({
-      queryKey: ["post", { id }],
-      queryFn: () => {
-        return postAPI.getPostDetail({ id });
-      },
-    });
+    queryClient.prefetchQuery(postQueries.detail(id));
   };
 
   return (
