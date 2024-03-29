@@ -1,13 +1,34 @@
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  infiniteQueryOptions,
+  queryOptions,
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { postAPI } from "./api";
 
 export const postQueries = {
   all: () => ["post"],
-  list: () => {
-    return queryOptions({
+  list: (params: { page: number; size: number }) => {
+    return infiniteQueryOptions({
+      initialPageParam: { ...params },
       queryKey: [...postQueries.all(), "list"],
-      queryFn: () => {
-        return postAPI.getPostList();
+      queryFn: ({ pageParam }) => {
+        const { page, size } = pageParam;
+        return postAPI.getPostList({
+          start: page === 1 ? 0 : size * page,
+          limit: size,
+        });
+      },
+      getNextPageParam: (lastPage, allPages) => {
+        const pageCount = allPages.length;
+
+        return {
+          ...params,
+          start: pageCount * 10,
+        };
+      },
+      select: (data) => {
+        return data.pages.flatMap((page) => page);
       },
     });
   },
@@ -22,8 +43,9 @@ export const postQueries = {
   },
 };
 
-export const usePostList = () => {
-  return useSuspenseQuery(postQueries.list());
+export const usePostList = (params: { page: number; size: number }) => {
+  const { page, size } = params;
+  return useSuspenseInfiniteQuery(postQueries.list({ page, size }));
 };
 
 export const usePostDetail = ({ id }: { id: string }) => {
