@@ -15,16 +15,15 @@ export const postQueries = {
       queryFn: ({ pageParam }) => {
         const { page, size } = pageParam;
         return postAPI.getPostList({
-          start: page === 1 ? 0 : size * page,
+          start: page === 1 ? 0 : size * (page - 1),
           limit: size,
         });
       },
       getNextPageParam: (lastPage, allPages) => {
         const pageCount = allPages.length;
-
         return {
           ...params,
-          start: pageCount * 10,
+          page: pageCount + 1,
         };
       },
       select: (data) => {
