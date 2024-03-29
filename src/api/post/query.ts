@@ -9,3 +9,12 @@ export const usePostList = () => {
     },
   });
 };
+
+export const usePostDetail = ({ id }: { id: string }) => {
+  return useQuery({
+    queryKey: ["postDetail", id],
+    queryFn: () => {
+      return postAPI.getPostDetail({ id });
+    },
+  });
+};

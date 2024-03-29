@@ -1,9 +1,10 @@
 import { Post } from "./type";
 import { IHttpClient, backendHttpClient } from "../common/httpClient";
-import { GetPostListResponse } from "./response";
+import { GetPostListResponse, GetPostDetailResponse } from "./response";
 
 type IPostAPI = {
   getPostList(): Promise<GetPostListResponse>;
+  getPostDetail({ id }: { id: string }): Promise<GetPostDetailResponse>;
 };
 
 class PostAPI implements IPostAPI {
@@ -16,6 +17,14 @@ class PostAPI implements IPostAPI {
     });
 
     return data as Post[];
+  }
+
+  async getPostDetail({ id }: Parameters<IPostAPI["getPostDetail"]>[0]) {
+    const { data } = await this.httpClient.request<GetPostDetailResponse>({
+      method: "GET",
+      url: `/posts/${id}`,
+    });
+    return data;
   }
 }
 
