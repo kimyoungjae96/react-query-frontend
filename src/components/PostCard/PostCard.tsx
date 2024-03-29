@@ -2,7 +2,6 @@ import { Post, postAPI } from "@/api/post";
 import styles from "./PostCard.module.css";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
 
 type PostCardProps = {
   post: Post;

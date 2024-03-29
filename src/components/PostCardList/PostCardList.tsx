@@ -1,5 +1,5 @@
 import { usePostList } from "@/api/post";
-import { PostCard } from "../PostCard/PostCard";
+import { PostCard } from "../PostCard";
 
 export const PostCardList = () => {
   const { data, isPending, error } = usePostList();
